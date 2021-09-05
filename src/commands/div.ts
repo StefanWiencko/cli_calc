@@ -2,7 +2,7 @@ import { Command, flags } from "@oclif/command";
 import { db } from "../db";
 const parseToNumber = (input: string) => parseFloat(input);
 export default class Add extends Command {
-  static description = "add two numbers";
+  static description = "divide two numbers";
 
   static flags = {
     help: flags.help({ char: "h" }),
@@ -28,7 +28,8 @@ export default class Add extends Command {
     const areValidArguments =
       args.first && args.second && flagsValues === undefined;
     const isValidMemoryFlagArgument = args.second === undefined && flags.memory;
-
+    if (args.second === 0)
+      this.error(new Error("Arguments in this operation can not be 0"));
     if (invalidArguments) this.error(new Error("Invalid input"));
     if (areValidArguments) {
       this.log(JSON.stringify(args.first / args.second));
